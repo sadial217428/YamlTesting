@@ -19,21 +19,44 @@ public class AppiumSetup
 		// This line starts a local Appium server for you as part of the test run
 		AppiumServerHelper.StartAppiumLocalServer();
 
-		var windowsOptions = new AppiumOptions
-		{
-			// Specify windows as the driver, typically don't need to change this
-			AutomationName = "windows",
-			// Always Windows for Windows
-			PlatformName = "Windows",
-            // The identifier of the deployed application to test
-            //App = "com.companyname.basicappiumsample_9zz4h110yvjzm!App",
-            App = @"F:\YamlsTestingProject\YamlTesting\Yaml\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Yaml.exe"
+        //var windowsOptions = new AppiumOptions
+        //{
+        //	// Specify windows as the driver, typically don't need to change this
+        //	AutomationName = "windows",
+        //	// Always Windows for Windows
+        //	PlatformName = "Windows",
+        //          // The identifier of the deployed application to test
+        //          //App = "com.companyname.basicappiumsample_9zz4h110yvjzm!App",
+        //          App = @"F:\YamlsTestingProject\YamlTesting\Yaml\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Yaml.exe"
 
+        //          };
+        //var currentDir = AppDomain.CurrentDomain.BaseDirectory;
+
+        //// Use relative path based on the current directory
+        //var appPath = Path.Combine(currentDir, @"..\..\..\Yaml\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Yaml.exe");
+
+        //var windowsOptions = new AppiumOptions
+        //    {
+        //    AutomationName = "windows",
+        //    PlatformName = "Windows",
+        //    App = appPath  // Use dynamically calculated path
+        //    };
+        string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\..\.."));
+        string appPath = Path.Combine(projectRoot, @"YamlsTestingProject\YamlTesting\Yaml\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Yaml.exe");
+
+        // Log the path for debugging purposes
+        Console.WriteLine($"Application Path: {appPath}");
+
+        var windowsOptions = new AppiumOptions
+            {
+            AutomationName = "windows",
+            PlatformName = "Windows",
+            App = appPath  // Use dynamically calculated path
             };
 
-		// Note there are many more options that you can use to influence the app under test according to your needs
+        // Note there are many more options that you can use to influence the app under test according to your needs
 
-		driver = new WindowsDriver(windowsOptions);
+        driver = new WindowsDriver(windowsOptions);
 	}
 
 	[OneTimeTearDown]
