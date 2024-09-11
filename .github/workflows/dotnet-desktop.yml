@@ -45,9 +45,9 @@ jobs:
           exit 1
         }
 
-    # Start Appium Server
+    # Start Appium Server on a specific port to avoid port conflicts
     - name: Start Appium
-      run: appium --log-level error &
+      run: appium --port 4725 --log-level error &
 
     # Build the project
     - name: Build
