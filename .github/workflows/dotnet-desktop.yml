@@ -18,15 +18,22 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
 
-    # Install WinAppDriver required for running Windows UI tests
+    # Download and install WinAppDriver
     - name: Install WinAppDriver
       run: |
-        Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/tag/v1.2.1/WindowsApplicationDriver_1.2.1.msi -OutFile WinAppDriver.msi
+        Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.1/WindowsApplicationDriver_1.2.1.msi -OutFile WinAppDriver.msi
         Start-Process msiexec.exe -Wait -ArgumentList '/I WinAppDriver.msi /quiet'
-
-    # Start WinAppDriver
+      
+    # Start WinAppDriver from its installation path
     - name: Start WinAppDriver
-      run: Start-Process WinAppDriver.exe
+      run: |
+        $winappdriverPath = "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
+        if (Test-Path $winappdriverPath) {
+          Start-Process $winappdriverPath
+        } else {
+          Write-Host "WinAppDriver not found"
+          exit 1
+        }
 
     # Build the project
     - name: Build
@@ -36,7 +43,7 @@ jobs:
     - name: Run Tests
       run: dotnet test UITests.Windows/UITests.Windows.csproj --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
 
-    # Upload test results as artifacts for review
+    # Upload test results
     - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
