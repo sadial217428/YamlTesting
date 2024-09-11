@@ -38,19 +38,7 @@ jobs:
         Start-Process msiexec.exe -Wait -ArgumentList '/I WinAppDriver.msi /quiet'
 
     # Step 7: Start WinAppDriver
-    - name: Start WinAppDriver
-      run: |
-        $winappdriverPath = "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
-        if (Test-Path $winappdriverPath) {
-          Start-Process $winappdriverPath
-        } else {
-          Write-Host "WinAppDriver not found"
-          exit 1
-        }
-
-    # Step 8: Start Appium server on a specific port (optional: can be changed to default port if necessary)
-    - name: Start Appium
-      run: appium --port 4725 --log-level error &
+  
 
     # Step 9: Build the project
     - name: Build
