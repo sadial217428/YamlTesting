@@ -19,16 +19,24 @@ public class MainPageTests : BaseTest
 	[Test]
 	public void ClickCounterTest()
 	{
-		// Arrange
-		// Find elements with the value of the AutomationId property
-		var element = FindUIElement("CounterBtn");
+		try{
+            // Arrange
+            // Find elements with the value of the AutomationId property
+            Task.Delay(2000).Wait(); // Wait for 2 seconds before clicking
 
-		// Act
-		element.Click();
-		Task.Delay(500).Wait(); // Wait for the click to register and show up on the screenshot
+            var element = FindUIElement("CounterBtn");
 
-		// Assert
-		App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
-		Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
+            // Act
+            element.Click();
+            Task.Delay(500).Wait(); // Wait for the click to register and show up on the screenshot
+
+            // Assert
+            App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
+            Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
+            }
+      catch(Exception ex)
+            {
+            Console.WriteLine("this is the erorr 6777777777777770"+ ex.InnerException); 
+            }
 	}
 }

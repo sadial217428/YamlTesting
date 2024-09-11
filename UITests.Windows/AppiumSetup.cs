@@ -43,7 +43,7 @@ public class AppiumSetup
         //    };
         string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\..\.."));
         string appPath ="https://github.com/sadial217428/YamlTesting/blob/main/Yaml/bin/Debug/net8.0-windows10.0.19041.0/win10-x64/Yaml.exe";
-		///Path.Combine(projectRoot, @"YamlsTestingProject\YamlTesting\Yaml\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Yaml.exe");
+       /// string appPath=Path.Combine(projectRoot, @"YamlsTestingProject\YamlTesting\Yaml\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Yaml.exe");
 
         // Log the path for debugging purposes
         Console.WriteLine($"Application Path: {appPath}");
