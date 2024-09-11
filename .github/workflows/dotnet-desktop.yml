@@ -21,7 +21,7 @@ jobs:
     # Install WinAppDriver required for running Windows UI tests
     - name: Install WinAppDriver
       run: |
-        Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.1/WindowsApplicationDriver.msi -OutFile WinAppDriver.msi
+        Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/tag/v1.2.1/WindowsApplicationDriver_1.2.1.msi -OutFile WinAppDriver.msi
         Start-Process msiexec.exe -Wait -ArgumentList '/I WinAppDriver.msi /quiet'
 
     # Start WinAppDriver
