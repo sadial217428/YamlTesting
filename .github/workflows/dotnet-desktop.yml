@@ -18,13 +18,23 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
 
-    # Download and install WinAppDriver
+    # Install Node.js and npm (required for Appium)
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'  # Specify a Node.js version
+
+    # Install Appium via npm (Node.js package manager)
+    - name: Install Appium
+      run: npm install -g appium
+
+    # Install WinAppDriver for Windows UI testing
     - name: Install WinAppDriver
       run: |
         Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.1/WindowsApplicationDriver_1.2.1.msi -OutFile WinAppDriver.msi
         Start-Process msiexec.exe -Wait -ArgumentList '/I WinAppDriver.msi /quiet'
-      
-    # Start WinAppDriver from its installation path
+
+    # Start WinAppDriver
     - name: Start WinAppDriver
       run: |
         $winappdriverPath = "C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe"
@@ -35,6 +45,10 @@ jobs:
           exit 1
         }
 
+    # Start Appium Server
+    - name: Start Appium
+      run: appium --log-level error &
+
     # Build the project
     - name: Build
       run: dotnet build Yaml/Yaml.csproj -c Release -f:net8.0-windows10.0.19041.0
@@ -43,7 +57,7 @@ jobs:
     - name: Run Tests
       run: dotnet test UITests.Windows/UITests.Windows.csproj --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
 
-    # Upload test results
+    # Upload test results as artifacts for review
     - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
