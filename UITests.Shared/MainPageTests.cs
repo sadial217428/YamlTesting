@@ -39,4 +39,23 @@ public class MainPageTests : BaseTest
             Console.WriteLine("this is the erorr 6777777777777770"+ ex.InnerException); 
             }
 	}
-}
+
+
+    [Test]
+    public void ClickCounterWelcomeTest()
+        {
+        try
+            {
+            // Arrange
+            Task.Delay(2000).Wait(); 
+
+            var element = FindUIElement("Welcome");
+            Assert.That(element.Text,Is.EqualTo("Welcome"));
+
+            }
+        catch (Exception ex)
+            {
+            Console.WriteLine("this is the erorr 6777777777777770" + ex.InnerException);
+            }
+        }
+    }
