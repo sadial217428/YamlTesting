@@ -31,24 +31,25 @@ jobs:
     - name: Install Appium
       run: npm install -g appium
 
-    # Step 6: Install WinAppDriver for Windows UI testing
+    # Step 6: Install Appium Windows Driver
+    - name: Install Appium Windows Driver
+      run: appium driver install --source=npm appium-windows-driver
+
+    # Step 7: Install WinAppDriver for Windows UI testing
     - name: Install WinAppDriver
       run: |
         Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.1/WindowsApplicationDriver_1.2.1.msi -OutFile WinAppDriver.msi
         Start-Process msiexec.exe -Wait -ArgumentList '/I WinAppDriver.msi /quiet'
 
-    # Step 7: Start WinAppDriver
-  
-
-    # Step 9: Build the project
+    # Step 8: Build the project
     - name: Build
       run: dotnet build Yaml/Yaml.csproj -c Release -f:net8.0-windows10.0.19041.0
 
-    # Step 10: Run Appium-based tests
+    # Step 9: Run Appium-based tests
     - name: Run Tests
       run: dotnet test UITests.Windows/UITests.Windows.csproj --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
 
-    # Step 11: Upload test results as artifacts for review
+    # Step 10: Upload test results as artifacts for review
     - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
