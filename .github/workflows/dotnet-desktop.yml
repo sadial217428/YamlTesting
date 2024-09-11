@@ -16,4 +16,4 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
     - name: Build
-      run: dotnet build Yaml.csproj -c Release -f:net8.0-windows10.0.19041.0
+      run: dotnet build Yaml/Yaml.csproj -c Release -f:net8.0-windows10.0.19041.0
