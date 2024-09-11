@@ -1,1 +1,0 @@
-F:\YamlsTestingProject\YamlTesting\Yaml\Yaml.csproj;x64
