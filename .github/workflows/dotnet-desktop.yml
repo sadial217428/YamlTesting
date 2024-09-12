@@ -77,7 +77,7 @@ jobs:
 
     # Step 12: Run specific test cases (use filter to run fast tests only)
     - name: Run Specific Tests
-      run: dotnet test UITests.Windows/UITests.Windows.csproj --filter "Category=FastTests"
+      run: dotnet test UITests.Windows/UITests.Windows.csproj --filter 
 
     # Step 13: Upload test results as artifacts
     - name: Upload Test Results
