@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Yaml")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+4c96454afe5afaf872c5424f4aacc9292d1a0b1c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+9614c02c04d5b36f0c0c13cfc6d9931188c63750")]
 [assembly: System.Reflection.AssemblyProductAttribute("Yaml")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Yaml")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

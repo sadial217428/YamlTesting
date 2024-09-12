@@ -17,7 +17,7 @@ public class MainPageTests : BaseTest
 	}
 
 	[Test]
-	public void ClickCounterTest()
+	public void ClickCounterTest1()
 	{
 		
             // Arrange
@@ -56,4 +56,56 @@ public class MainPageTests : BaseTest
 
         
         }
+
+    [Test]
+    public void ClickCounterTest()
+        {
+        // Get the root path of the application dynamically
+        string rootPath = AppDomain.CurrentDomain.BaseDirectory;
+        string logFilePath = Path.Combine(rootPath, "TestLogs", "TestLog.txt"); // Create the file in a 'TestLogs' directory
+
+        // Ensure that the directory exists
+        Directory.CreateDirectory(Path.GetDirectoryName(logFilePath));
+
+        string testName = nameof(ClickCounterTest);
+
+        try
+            {
+            // Arrange
+            Task.Delay(2000).Wait(); // Wait for 2 seconds before clicking
+            var element = FindUIElement("CounterBtn");
+
+            // Act
+            element.Click();
+            Task.Delay(500).Wait(); // Wait for the click to register and show up on the screenshot
+
+            // Assert
+            string dateTimeNow = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+            // Save the screenshot with DateTime included in the filename
+            App.GetScreenshot().SaveAsFile(Path.Combine(rootPath, $"{testName}_{dateTimeNow}.png"));
+
+            // Assert element text
+            Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
+
+            // Log success to the text file
+            using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                {
+                writer.WriteLine($"{DateTime.Now}: Test '{testName}' passed.");
+                }
+            }
+        catch (Exception ex)
+            {
+            // Log the error to the text file
+            using (StreamWriter writer = new StreamWriter(logFilePath, true))
+                {
+                writer.WriteLine($"{DateTime.Now}: Test '{testName}' failed with exception: {ex.Message}");
+                }
+
+            // Rethrow the exception to ensure the test fails properly
+            throw;
+            }
+        }
+
+
     }

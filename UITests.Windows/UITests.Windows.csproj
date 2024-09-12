@@ -19,4 +19,8 @@
     <Compile Include="..\UITests.Shared\**\*.cs" LinkBase="Shared" Visible="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>
