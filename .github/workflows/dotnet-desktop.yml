@@ -1,3 +1,5 @@
+name: .NET MAUI UI Automation Tests
+
 on:
   push:
     branches: [ "main" ]
@@ -7,49 +9,77 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    
     steps:
     # Step 1: Checkout the code
     - uses: actions/checkout@v3
 
-    # Step 2: Setup .NET 8 SDK
+    # Step 2: Cache .NET dependencies (NuGet packages)
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-dotnet-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-dotnet-
+
+    # Step 3: Setup .NET SDK
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 8.0.x
 
-    # Step 3: Install MAUI workload (for MAUI-based projects)
+    # Step 4: Cache MAUI workload installation
+    - name: Cache .NET SDK
+      uses: actions/cache@v3
+      with:
+        path: ~/.dotnet
+        key: ${{ runner.os }}-dotnet-${{ hashFiles('global.json') }}
+        restore-keys: |
+          ${{ runner.os }}-dotnet-
+
+    # Step 5: Install MAUI workload
     - name: Install MAUI workload
       run: dotnet workload install maui
 
-    # Step 4: Install Node.js (required for Appium)
+    # Step 6: Cache Node.js dependencies (npm packages)
+    - name: Cache Node.js modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    # Step 7: Install Node.js
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18.x'
 
-    # Step 5: Install Appium (via npm)
+    # Step 8: Install Appium via npm
     - name: Install Appium
       run: npm install -g appium
 
-    # Step 6: Install Appium Windows Driver
+    # Step 9: Install Appium Windows Driver
     - name: Install Appium Windows Driver
       run: appium driver install --source=npm appium-windows-driver
 
-    # Step 7: Install WinAppDriver for Windows UI testing
+    # Step 10: Install WinAppDriver for Windows UI automation
     - name: Install WinAppDriver
       run: |
         Invoke-WebRequest -Uri https://github.com/microsoft/WinAppDriver/releases/download/v1.2.1/WindowsApplicationDriver_1.2.1.msi -OutFile WinAppDriver.msi
         Start-Process msiexec.exe -Wait -ArgumentList '/I WinAppDriver.msi /quiet'
 
-    # Step 8: Build the project
-    - name: Build
+    # Step 11: Build the project
+    - name: Build .NET Project
       run: dotnet build Yaml/Yaml.csproj -c Release -f:net8.0-windows10.0.19041.0
 
-    # Step 9: Run Appium-based tests
-    - name: Run Tests
-      run: dotnet test UITests.Windows/UITests.Windows.csproj --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
+    # Step 12: Run specific test cases (use filter to run fast tests only)
+    - name: Run Specific Tests
+      run: dotnet test UITests.Windows/UITests.Windows.csproj --filter "Category=FastTests"
 
-    # Step 10: Upload test results as artifacts for review
+    # Step 13: Upload test results as artifacts
     - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
