@@ -35,6 +35,9 @@ public class MainPageTests : BaseTest
 
         // Save the screenshot with DateTime included in the filename
         App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}_{dateTimeNow}.png");
+
+
+        Console.WriteLine("i m runinng 12");
         Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
     
 	}
@@ -54,7 +57,10 @@ public class MainPageTests : BaseTest
         App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}_{dateTimeNow}.png");
         Assert.That(element.Text,Is.EqualTo("Welcome"));
 
-        
+
+        Console.WriteLine("i m runinng 566");
+
+
         }
 
     [Test]
@@ -69,8 +75,6 @@ public class MainPageTests : BaseTest
 
         string testName = nameof(ClickCounterTest);
 
-        try
-            {
             // Arrange
             Task.Delay(2000).Wait(); // Wait for 2 seconds before clicking
             var element = FindUIElement("CounterBtn");
@@ -88,23 +92,15 @@ public class MainPageTests : BaseTest
             // Assert element text
             Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
 
-            // Log success to the text file
+        // Log success to the text file
+
+        Console.WriteLine("i m runinng 3333");
             using (StreamWriter writer = new StreamWriter(logFilePath, true))
                 {
                 writer.WriteLine($"{DateTime.Now}: Test '{testName}' passed.");
                 }
-            }
-        catch (Exception ex)
-            {
-            // Log the error to the text file
-            using (StreamWriter writer = new StreamWriter(logFilePath, true))
-                {
-                writer.WriteLine($"{DateTime.Now}: Test '{testName}' failed with exception: {ex.Message}");
-                }
-
-            // Rethrow the exception to ensure the test fails properly
-            throw;
-            }
+            
+      
         }
 
 
