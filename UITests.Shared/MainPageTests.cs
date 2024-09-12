@@ -30,9 +30,12 @@ public class MainPageTests : BaseTest
             element.Click();
             Task.Delay(500).Wait(); // Wait for the click to register and show up on the screenshot
 
-            // Assert
-            App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
-            Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
+        // Assert
+        string dateTimeNow = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+        // Save the screenshot with DateTime included in the filename
+        App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}_{dateTimeNow}.png");
+        Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
     
 	}
 
@@ -45,7 +48,11 @@ public class MainPageTests : BaseTest
             Task.Delay(2000).Wait(); 
 
             var element = FindUIElement("Welcome");
-            Assert.That(element.Text,Is.EqualTo("Welcome"));
+        string dateTimeNow = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+        // Save the screenshot with DateTime included in the filename
+        App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}_{dateTimeNow}.png");
+        Assert.That(element.Text,Is.EqualTo("Welcome"));
 
         
         }
